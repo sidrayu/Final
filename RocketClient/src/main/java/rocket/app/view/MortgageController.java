@@ -22,6 +22,13 @@ public class MortgageController {
 	//		Labels   -  various labels for the controls
 	//		Button   -  button to calculate the loan payment
 	//		Label    -  to show error messages (exception throw, payment exception)
+	private double txtIncome;
+	private double txtExpenses;
+	private int txtCreditScore;
+	private double txtHouseCost;
+	private int term;
+	
+	
 
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;

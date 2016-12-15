@@ -1,12 +1,17 @@
 package rocketBase;
 
+import java.util.ArrayList;
+
 import org.apache.poi.ss.formula.functions.*;
+
+import exceptions.RateException;
+import rocketDomain.RateDomainModel;
 
 public class RateBLL {
 
 	private static RateDAL _RateDAL = new RateDAL();
 	
-	static double getRate(int GivenCreditScore) 
+	public static double getRate(int GivenCreditScore) throws RateException 
 	{
 		//TODO - RocketBLL RateBLL.getRate - make sure you throw any exception
 		
@@ -15,12 +20,19 @@ public class RateBLL {
 		//		interest rate for the given credit score
 		//		hints:  you have to sort the rates...  you can do this by using
 		//			a comparator... or by using an OrderBy statement in the HQL
-		
-		
+		ArrayList<RateDomainModel> rates = RateDAL.getAllRates();
+		double rate=0;
+		for (RateDomainModel r: rates){
+			if (GivenCreditScore >= r.getiMinCreditScore()) {
+				rate = r.getdInterestRate();
+		}
+		}
+		if (rate == 0) {
+			throw new RateException(GivenCreditScore);
+		 } 
 		//TODO - RocketBLL RateBLL.getRate
 		//			obviously this should be changed to return the determined rate
-		return 0;
-		
+		return rate;
 		
 	}
 	
@@ -33,4 +45,5 @@ public class RateBLL {
 	{		
 		return FinanceLib.pmt(r, n, p, f, t);
 	}
+	
 }

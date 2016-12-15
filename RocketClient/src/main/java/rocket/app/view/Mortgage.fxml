@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40" fx:controller="rocket.app.view.MortgageController">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rocket.app.view.MortgageController">
+   <children>
+      <TextField layoutX="308.0" layoutY="46.0" text="enter income" />
+      <TextField layoutX="308.0" layoutY="92.0" text="enter monthly expenses" />
+      <TextField layoutX="308.0" layoutY="137.0" text="enter Credit Score" />
+      <TextField layoutX="308.0" layoutY="181.0" text="enter cost of the house " />
+      <Label layoutX="218.0" layoutY="51.0" text="Income" />
+      <Label layoutX="217.0" layoutY="97.0" text="Expenses" />
+      <Label layoutX="209.0" layoutY="142.0" text="Credit Score" />
+      <Label layoutX="213.0" layoutY="186.0" text="HouseCost" />
+      <Label layoutX="240.0" layoutY="235.0" text="Term" />
+      <ComboBox layoutX="317.0" layoutY="230.0" prefWidth="150.0" promptText="15 Years" />
+   </children>
 </AnchorPane>
