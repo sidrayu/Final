@@ -7,11 +7,7 @@ import netgame.common.Hub;
 import rocketBase.RateBLL;
 import rocketData.LoanRequest;
 
-
 public class RocketHub extends Hub {
-
-	private RateBLL _RateBLL = new RateBLL();
-	
 	public RocketHub(int port) throws IOException {
 		super(port);
 	}
@@ -38,10 +34,10 @@ public class RocketHub extends Hub {
 
 			try {
 				double newRate = RateBLL.getRate(lq.getiCreditScore());
-				double newPayment = RateBLL.getPayment(newRate / 1200, lq.getiTerm() * 12, lq.getdAmount(), 0, false);
+				double newPayment = RateBLL.getPayment(newRate, lq.getiTerm(), lq.getdAmount(), 0, false);
 
 				lq.setdRate(newRate);
-				lq.setdPayment(newPayment);
+				lq.setdPayment(-newPayment);
 			} catch (RateException e) {
 				e.printStackTrace();
 				System.out.println("Can NOT get the rate with the given credit: " + lq.getiCreditScore());
@@ -49,6 +45,6 @@ public class RocketHub extends Hub {
 
 			sendToAll(lq);
 		}
-	
+
 	}
 }

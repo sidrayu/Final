@@ -58,7 +58,9 @@ public class MortgageController implements Initializable {
 	@FXML
 	public Label MPayLabel;
 	@FXML
-	private ComboBox termBox;
+	public Label errorLabel;
+	@FXML
+	private ComboBox<String> cboxTerm;
 	@FXML
 	private Button btnCalc;
 
@@ -77,14 +79,22 @@ public class MortgageController implements Initializable {
 		// set the loan request details... rate, term, amount, credit score,
 		// downpayment
 		// I've created you an instance of lq... execute the setters in lq
-		lq.setIncome(Integer.valueOf(txtIncome.getText()));
-		lq.setExpenses(Integer.valueOf(txtExpense.getText()));
-		lq.setdAmount(Double.valueOf(txtCost.getText()));
-		lq.setiCreditScore(Integer.valueOf(txtCredit.getText()));
-		if (termBox.getValue() == "15 Year")
-			lq.setiTerm(12*15);
-		else
-			lq.setiTerm(12*30);
+		try {
+			lq.setIncome(Integer.parseInt(txtIncome.getText()));
+			lq.setExpenses(Integer.parseInt(txtExpense.getText()));
+			lq.setiCreditScore(Integer.parseInt(txtCredit.getText()));
+			lq.setdAmount(Double.parseDouble(txtCost.getText()));
+		} catch (Exception e) {
+			errorLabel.setText("Exception: Please input numbers in the textfields!");
+		}
+		try {
+			if (cboxTerm.getValue() == "15 Year")
+				lq.setiTerm(15*12);
+			else
+				lq.setiTerm(30*12);
+		} catch (Exception e) {
+			errorLabel.setText("Exception: Please select a term in the list!");
+		}
 		
 		// send lq as a message to RocketHub
 		mainApp.messageSend(lq);
@@ -96,14 +106,30 @@ public class MortgageController implements Initializable {
 		// after it's returned back from the server, the payment (dPayment)
 		// should be calculated.
 		// Display dPayment on the form, rounded to two decimal places
+		
+		// I tried... I don't think the calculation is correct.
 
+		double dPay = lRequest.getdPayment();
+		double monthIncome = lRequest.getIncome() / 12.00;
+		double mPay = ((int) (dPay * 100.00)) / 100.00;
+		double resid = dPay - mPay;
+		double income1 = monthIncome * 0.28;
+		double income2 = monthIncome * 0.36 - lRequest.getExpenses();
+		double finalIncome = income1 <= income2 ? income1 : income2;
+
+		if (resid > 0.005)
+			mPay = mPay + 0.01;
+		if (dPay <= finalIncome)
+			DPayLabel.setText("\t\t The Mortgage Payment is: $" + mPay);
+		else
+			MPayLabel.setText("\t\t House Cost too high");
 	}
-
-	ObservableList<String> list = FXCollections.observableArrayList("15 Year", "30 Year");
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//cboxTerm.setItems(list);
-		
+		cboxTerm.setPromptText("Select a Term");
+		cboxTerm.getItems().addAll("15 Year", "30 Year");
+		DPayLabel.setText("");
+		errorLabel.setText("Running...");
 	}
 }
