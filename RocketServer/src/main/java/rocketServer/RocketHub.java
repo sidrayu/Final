@@ -33,11 +33,10 @@ public class RocketHub extends Hub {
 			// you should update lq, and then send lq back to the caller(s)
 
 			try {
-				double newRate = RateBLL.getRate(lq.getiCreditScore());
-				double newPayment = RateBLL.getPayment(newRate, lq.getiTerm(), lq.getdAmount(), 0, false);
-
-				lq.setdRate(newRate);
-				lq.setdPayment(-newPayment);
+				double loadRate = RateBLL.getRate(lq.getiCreditScore());
+				double newPayment = RateBLL.getPayment(loadRate/1200, lq.getiTerm(), lq.getdAmount(), 0, false);
+				lq.setdRate(loadRate);
+				lq.setdPayment(newPayment);
 			} catch (RateException e) {
 				e.printStackTrace();
 				System.out.println("Can NOT get the rate with the given credit: " + lq.getiCreditScore());
