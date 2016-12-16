@@ -16,8 +16,8 @@ public class LoanRequest implements Serializable {
 	//			Income
 	//			Expenses
 	//			Add these attributes to the class... add getters and setters.
-	double income;
-	double expenses;
+	private double income;
+	private double expenses;
 	
 	public double getIncome() {
 		return income;
