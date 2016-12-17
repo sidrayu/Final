@@ -41,6 +41,7 @@ public class MortgageController implements Initializable {
 	private TextField txtCredit;
 	@FXML
 	private TextField txtCost;
+	//down payment
 	@FXML
 	private TextField txtDPay;
 	@FXML
